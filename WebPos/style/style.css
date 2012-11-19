@@ -1,4 +1,7 @@
-﻿html, body, h1, form, fieldset, legend, ol, li {
+﻿/**
+ * @see http://colorschemedesigner.com/#2c61TowoHw0w0
+ */
+html, body, h1, form, fieldset, legend, ol, li {
     margin: 0;
     padding: 0;
 }
