@@ -3,11 +3,25 @@
 	<head>
 		<title>Product List</title>
 		<link rel="stylesheet" type="text/css" href="style/style.css" />
+		<style type="text/css">
+		form {
+			background: #BD2178;
+			width: 400px;
+			height: 240px;
+		}
+		form button {
+			background: #5C084C;
+		}
+		form button:hover {
+		    background: #5C084C;
+		    cursor: pointer;
+		}
+		</style>
 		<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 	</head>
 	<body>
 		<h1>Product List</h1>
-		<form id="product" style="background:#BD2178;width:400px;height:240px;">
+		<form id="product">
 			<fieldset>
 				<!--<legend>Product details</ledgend>-->
 				<ol>
@@ -28,11 +42,15 @@
 						<label for="remarks">Remarks</label>
 						<textarea id="remarks"></textarea>
 					</li>
+					<li>
+						<label for="available">Available</label>
+						<input id="available" readonly="readonly" />
+					</li>
 				</ol>
 			</fieldset>
-			<button id="btnReset" type="submit" style="background:#5C084C">reset</button>
-			<button id="submitButton" type="submit" style="background:#5C084C">save</button>
-			<button id="btnUpdate" type="submit" style="background:#5C084C">update</button>
+			<button id="btnReset" type="submit">reset</button>
+			<button id="submitButton" type="submit">save</button>
+			<button id="btnUpdate" type="submit">update</button>
 		</form><br/>
 		<div id="results"></div>
 	</body>

@@ -130,6 +130,11 @@ form button:hover {
     cursor: pointer;
 }
 
+form input[readonly="readonly"] {
+	border: none;
+	background: transparent;
+}
+
 #results li {
 	list-style-type: decimal;
 }
