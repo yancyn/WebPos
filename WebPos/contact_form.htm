@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html PUBLIC>
+<html>
+<!--
+@source http://tejasrpatel.wordpress.com/2011/12/29/create-sqlite-off-line-database-and-insertupdatedeletedrop-operations-in-sqlite-using-jquery-html5-inputs/?year=2011&monthnum=12&day=29&like=1&_wpnonce=5dada55fca&wpl_rand=c999cb245e
+-->
+	<head>
+		<title>Contact Form</title>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<script type="text/javascript" src="jquery-1.8.3.min.js"></script>
+	</head>
+	<body>
+		<h1>CONTACT FORM</h1>
+		<form id="mycontact">
+			<fieldset>
+				<legend>You details</ledgend>
+				<ol>
+					<li>
+						<label for="username">Name</label>
+						<input id="username" type="text" placeholder="First and autofocus" required autofocus pattern=" " />
+						<input type="hidden" id="id" />
+					</li>
+					<li>
+						<label for="useremail">Email</label>
+						<input id="useremail" type="text" placeholder="example@domain.com" required pattern=" " />
+					</li>
+				</ol>
+			</fieldset>
+			<button id="btnReset" type="submit">reset</button>
+			<button id="submitButton" type="submit">save</button>
+			<button id="btnUpdate" type="submit">update</button>
+			<!--<button id="btnDrop" type="submit">drop</button>-->
+		</form><br/>
+		<div id="results"></div>
+	</body>
+	<script type="text/javascript" src="db.js"></script>
+</html>

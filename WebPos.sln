@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+# SharpDevelop 4.2.1.8805
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B495B21D-1745-4356-9A67-AAFA9D4F7C95}"
+	ProjectSection(SolutionItems) = postProject
+		WebPos\contact_form.htm = WebPos\contact_form.htm
+		WebPos\db.js = WebPos\db.js
+		WebPos\jquery-1.8.3.min.js = WebPos\jquery-1.8.3.min.js
+		WebPos\README.md = WebPos\README.md
+		WebPos\style.css = WebPos\style.css
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+	EndGlobalSection
+EndGlobal
