@@ -1,5 +1,4 @@
 ﻿//  Declare SQL Query for SQLite
-var createStatement = "CREATE TABLE IF NOT EXISTS Contacts (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, useremail TEXT)";
 var dropStatement = "DROP TABLE Contacts";
 var db = openDatabase("AddressBook", "1.0", "Address Book", 200000);  // Open SQLite Database
 var dataset;
@@ -36,7 +35,20 @@ var dataset;
  */
 function createTable() {
 	console.log("create table");
+	var createStatement = "CREATE TABLE IF NOT EXISTS Contacts (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, useremail TEXT);";
     db.transaction(function (tx) { tx.executeSql(createStatement, [], showRecords, onError); });
+    
+    createStatement = "CREATE TABLE IF NOT EXISTS Products(id INTEGER PRIMARY KEY AUTOINCREMENT, code TEXT, name TEXT, price REAL, remarks TEXT);";
+    db.transaction(function(tx) {tx.executeSql(createStatement,[],null,onError);});
+    
+    createStatement = "CREATE TABLE IF NOT EXISTS Warehouse(id INTEGER PRIMARY KEY AUTOINCREMENT, product INTEGER, qty INTEGER, buyat INTEGER, remarks TEXT, FOREIGN KEY(product) REFERENCES Products(id));";
+    db.transaction(function(tx) {tx.executeSql(createStatement,[],null,onError);});
+    
+    createStatement = "CREATE TABLE IF NOT EXISTS Receipts(id INTEGER PRIMARY KEY AUTOINCREMENT, created INTEGER, sum REAL, remarks TEXT);";
+    db.transaction(function(tx) {tx.executeSql(createStatement,[],null,onError);});
+    
+	createStatement = "CREATE TABLE IF NOT EXISTS ReceiptItems(id INTEGER PRIMARY KEY AUTOINCREMENT, parent INTEGER, product INTEGER, qty INTEGER, FOREIGN KEY(parent) REFERENCES Receipts(id), FOREIGN KEY(product) REFERENCES Products(id));";
+    db.transaction(function(tx) {tx.executeSql(createStatement,[],null,onError);});
 }
 
 /**

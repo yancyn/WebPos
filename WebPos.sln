@@ -5,10 +5,20 @@ Microsoft Visual Studio Solution File, Format Version 9.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B495B21D-1745-4356-9A67-AAFA9D4F7C95}"
 	ProjectSection(SolutionItems) = postProject
 		WebPos\contact_form.htm = WebPos\contact_form.htm
-		WebPos\db.js = WebPos\db.js
-		WebPos\jquery-1.8.3.min.js = WebPos\jquery-1.8.3.min.js
 		WebPos\README.md = WebPos\README.md
-		WebPos\style.css = WebPos\style.css
+		WebPos\product.htm = WebPos\product.htm
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "js", "js", "{9553E515-61B7-4335-8FD6-C353C75D3055}"
+	ProjectSection(SolutionItems) = postProject
+		WebPos\js\db.js = WebPos\js\db.js
+		WebPos\js\jquery-1.8.3.min.js = WebPos\js\jquery-1.8.3.min.js
+		WebPos\js\product.js = WebPos\js\product.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "style", "style", "{D4FE3CC4-871C-4F2C-A8D0-B692FEB07E71}"
+	ProjectSection(SolutionItems) = postProject
+		WebPos\style\style.css = WebPos\style\style.css
 	EndProjectSection
 EndProject
 Global
@@ -17,5 +27,9 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9553E515-61B7-4335-8FD6-C353C75D3055} = {B495B21D-1745-4356-9A67-AAFA9D4F7C95}
+		{D4FE3CC4-871C-4F2C-A8D0-B692FEB07E71} = {B495B21D-1745-4356-9A67-AAFA9D4F7C95}
 	EndGlobalSection
 EndGlobal

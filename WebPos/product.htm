@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html PUBLIC>
+<html>
+	<head>
+		<title>Product List</title>
+		<link rel="stylesheet" type="text/css" href="style/style.css" />
+		<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+	</head>
+	<body>
+		<h1>Product List</h1>
+		<form id="product" style="width:400px;height:240px;">
+			<fieldset>
+				<!--<legend>Product details</ledgend>-->
+				<ol>
+					<li>
+						<label for="code">Code</label>
+						<input id="code" type="text" placeholder="First and autofocus" required autofocus pattern=" " />
+						<input type="hidden" id="id" />
+					</li>
+					<li>
+						<label for="name">Name</label>
+						<input id="name" type="text" required pattern=" " />
+					</li>
+					<li>
+						<label for="price">Price</label>
+						$<input id="price" type="text" required pattern="0.00" /><!-- TODO: Check decimal pattern -->
+					</li>
+					<li>
+						<label for="remarks">Remarks</label>
+						<textarea id="remarks"></textarea>
+					</li>
+				</ol>
+			</fieldset>
+			<button id="btnReset" type="submit">reset</button>
+			<button id="submitButton" type="submit">save</button>
+			<button id="btnUpdate" type="submit">update</button>
+		</form><br/>
+		<div id="results"></div>
+	</body>
+	<script type="text/javascript" src="js/product.js"></script>
+</html>
