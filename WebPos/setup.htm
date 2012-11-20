@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html PUBLIC>
+<html>
+	<head>
+		<title>Appilcation Setup</title>
+		<link rel="stylesheet" type="text/css" href="style/style.css" />
+		<style type="text/css">
+		form {
+			background: #DA7E92;
+		}
+		form ol li {
+			list-style-type: decimal;
+		}
+		</style>		
+		<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+		<script type="text/javascript" src="js/db.js"></script>
+	</head>
+	<body>
+		<h1>Setup</h1>
+		<form id="setup">
+		<ol>
+			<li>
+			After finish load this page, move the database file under <code>C:\inetupb\www\WebPos\App_Data</code>
+			</li>
+			<li>
+			Open command prompt with administrator then create a softlink to the new database with the command <code>mklink [filename] [C:\inetupb\www\WebPos\App_Data\filename]</code>
+			</li>
+		</ol>		
+		<p/>
+		
+		You can find the database under your <i>user data directory</i>
+		<ul>
+			<li>Windows XP: C:\Documents and Settings\&lt;username&gt;\Local Settings\Application Data\Google\Chrome\User Data\Default</li>
+			<li>Windows 7 or Vista: C:\Users\&lt;username&gt;\AppData\Local\Google\Chrome\User Data\Default</li>
+			<li>Mac OS X: ~/Library/Application Support/Google/Chrome/Default</li>
+			<li>Linux: ~/.config/google-chrome/Default</li>
+		</ul>
+		</form>
+	</body>
+</html>

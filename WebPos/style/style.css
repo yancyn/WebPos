@@ -18,9 +18,9 @@ form {
     background: #9cbc2c;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
-    padding: 20px;
-    width: 400px;
-    height: 150px;
+    padding: 20px 20px 20px 40px;
+    width: auto;
+    height: auto;
 }
 
 form fieldset {
@@ -102,7 +102,6 @@ form textarea {
 }
 
 form input:not([type=submit]):focus,
-
 form textarea:focus {
     background: #eaeaea;
 }
@@ -130,6 +129,9 @@ form button:hover {
     cursor: pointer;
 }
 
+/**
+ * Make input like a label for those readonly attribute.
+ */
 form input[readonly="readonly"] {
 	border: none;
 	background: transparent;

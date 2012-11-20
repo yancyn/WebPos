@@ -1,18 +1,30 @@
 ﻿//  Declare SQL Query for SQLite
-var db = openDatabase("AddressBook", "1.0", "Address Book", 200000);  // Open SQLite Database
-var insertStatement = "INSERT INTO Products(code,name,price,remarks) VALUES(?,?,?,?)";
-var deleteStatement = "DELETE FROM Products WHERE id=?";
-var updateStatement = "UPDATE Products SET code=?, name=?, price=?, remarks=? WHERE id=?";
-var selectAllStatement = "SELECT * FROM Products";
+var db = openDatabase("Pos", "1.0", "Web Point of Sales", 4*1024*1024);
+var insertStatement = "INSERT INTO Stocks(code,name,price,remarks) VALUES(?,?,?,?)";
+var deleteStatement = "DELETE FROM Stocks WHERE id=?";
+var updateStatement = "UPDATE Stocks SET code=?, name=?, price=?, remarks=? WHERE id=?";
+var selectAllStatement = "SELECT * FROM Stocks";
 var dataset;
 
 /**
  * Get value from Input and insert record. Called when Save/Submit Button Click.
+ * TODO: Handle case where user press a wrong button instead just want to update.
  */
 function insertRecord() {
     var code = $('input:text[id=code]').val();
     var name = $('input:text[id=name]').val();
+    if(name.length == 0) {
+    	alert("Name cannot be blank!");
+    	return;
+	}
+    
+    //TODO: validate price
     var price = $('input:text[id=price]').val();
+    //if(!price.match("\d+(\.\d{1,2})?")) {
+    //	alert("Please provide a valid price. ie. 1.23");
+    //	return;
+    //}
+    
     var remarks = $("#remarks").val();
     db.transaction(function (tx) { tx.executeSql(insertStatement, [code,name,price,remarks], loadAndReset, onError); });
 }
@@ -96,9 +108,14 @@ function showRecords() {
  * Called when page is ready for load.
  */
 $(document).ready(function () {
-    $("body").fadeIn(2000);//Fade In Effect when Page Load.
-    $("#submitButton").click(insertRecord);// Register Event Listener when button click.
+
+	//Fade In Effect when Page Load.
+    $("body").fadeIn(2000);
+    
+    // Register Event Listener when button click.
+    $("#submitButton").click(insertRecord);
     $("#btnUpdate").click(updateRecord);
     $("#btnReset").click(resetForm);
+    
     showRecords();
 });
