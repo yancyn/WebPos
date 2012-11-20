@@ -54,11 +54,41 @@ function updateRecord() {
  */
 function loadRecord(i) {
     var item = dataset.item(i);
-    $("#id").val((item['id']).toString());
+    var id = (item['id']).toString();
+    $("#id").val(id);
     $("#code").val((item['code']).toString());
     $("#name").val((item['name']).toString());
     $("#price").val((item['price']).toString());
     $("#remarks").val((item['remarks']).toString());
+    
+    showHistory(id);
+}
+/**
+ * Retrive purchase history record for stock selected.
+ */
+function showHistory(i) {
+    $("#history").html('');
+    db.transaction(function (tx) {
+    	var sql = "SELECT stock, qty, datetime(buyat,'unixepoch','localtime') AS localdate, remarks";
+    	sql += " FROM Warehouse";
+    	sql += " WHERE stock = "+i;
+    	sql += " ORDER BY buyat DESC";
+    	//var sql = "SELECT COUNT(*) AS count FROM Warehouse WHERE stock = "+i;
+    	var count = -1;
+        tx.executeSql(sql, [], function (tx, result) {
+            if(result.rows.length == 0) {
+            	$("#history").html("No record found!");
+            	return;
+			}
+            
+            for (var i = 0, item = null; i < result.rows.length; i++) {
+                item = result.rows.item(i);
+                var linkeditdelete = '<li>' + item['localdate']+': '+item['qty'] + 'pcs</li>';
+                $("#history").append(linkeditdelete);
+            }
+        });
+        //alert(count);
+    });
 }
 
 /**
@@ -108,6 +138,19 @@ function showRecords() {
 }
 
 /**
+ * Purchase stock into warehouse.
+ */
+function buyStock() {
+	var sql = "INSERT INTO Warehouse(stock,qty,buyat,remarks) VALUES(?,?,?,?)";
+	var id = $("#id").val();
+    var qty = $('input:text[id=qty]').val();
+    var buyat = $('input:text[id=buyat]').val();
+    var remarks = $("#whremarks").val();
+    db.transaction(function (tx) { tx.executeSql(sql, [id,qty,buyat,remarks], loadAndReset, onError); });
+    console.log("buy in stock"+id+" qty: "+qty+" at "+buyat);
+}
+
+/**
  * Called when page is ready for load.
  */
 $(document).ready(function () {
@@ -119,6 +162,8 @@ $(document).ready(function () {
     $("#submitButton").click(insertRecord);
     $("#btnUpdate").click(updateRecord);
     $("#btnReset").click(resetForm);
+    
+    $("#btnBuy").click(buyStock);
     
     showRecords();
 });

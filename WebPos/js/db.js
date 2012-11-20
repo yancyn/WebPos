@@ -41,7 +41,7 @@ function createTable() {
     	tx.executeSql(createStatement,[],null,onError);
     	
     	console.log("creating table [Warehouse]");
-    	createStatement = "CREATE TABLE IF NOT EXISTS Warehouse(id INTEGER PRIMARY KEY AUTOINCREMENT, stockid INTEGER, qty INTEGER, buyat INTEGER, remarks TEXT, FOREIGN KEY(stockid) REFERENCES Stocks(id));";
+    	createStatement = "CREATE TABLE IF NOT EXISTS Warehouse(id INTEGER PRIMARY KEY AUTOINCREMENT, stock INTEGER, qty INTEGER, buyat INTEGER, remarks TEXT, FOREIGN KEY(stock) REFERENCES Stocks(id));";
     	tx.executeSql(createStatement,[],null,onError);
     	
     	console.log("creating table [Receipts]");
@@ -49,7 +49,7 @@ function createTable() {
     	tx.executeSql(createStatement,[],null,onError);
     	
     	console.log("creating table [ReceiptItems]");
-		createStatement = "CREATE TABLE IF NOT EXISTS ReceiptItems(id INTEGER PRIMARY KEY AUTOINCREMENT, parent INTEGER, stockid INTEGER, qty INTEGER, FOREIGN KEY(parent) REFERENCES Receipts(id), FOREIGN KEY(stockid) REFERENCES Stocks(id));";
+		createStatement = "CREATE TABLE IF NOT EXISTS ReceiptItems(id INTEGER PRIMARY KEY AUTOINCREMENT, parent INTEGER, stock INTEGER, qty INTEGER, FOREIGN KEY(parent) REFERENCES Receipts(id), FOREIGN KEY(stock) REFERENCES Stocks(id));";
 		tx.executeSql(createStatement,[],null,onError);
 	});
 }

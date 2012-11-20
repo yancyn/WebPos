@@ -8,6 +8,7 @@ html, body, h1, form, fieldset, legend, ol, li {
 
 h1 {
 	text-transform: uppercase;
+	clear: both;
 }
 
 body {

@@ -24,6 +24,16 @@
 		}
 		#results li:nth-child(odd) { background: #BD2178;}
 		#results li:nth-child(even) {background: #FFF;}
+		
+		/**
+		 * HACK: Move stock-in panel right to stock details panel.
+		 */
+		#warehouse {
+			margin-left: 600px;
+			margin-top: -820px;
+			height:250px;
+		}
+		#historyListing {margin-left: 600px;}
 		</style>
 		<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 	</head>
@@ -59,10 +69,37 @@
 			<button id="btnReset" type="submit">reset</button>
 			<button id="submitButton" type="submit">save</button>
 			<button id="btnUpdate" type="submit">update</button>
-		</form><p/>
-		
+		</form>
+		<p/>
+			
 		<h1>Listing</h1>
 		<div id="results"></div>
+		
+		<form id="warehouse">
+			<fieldset>
+				<legend>Stock In</legend>
+				<ol>
+					<li>
+						<label for="qty">Quantity</label>
+						<input id="qty" type="text" />
+					</li>
+					<li>
+						<label for="buyat">Buy At</label>
+						<input id="buyat" type="text" />
+					</li>
+					<li>
+						<label for="whremarks">Remarks</label>
+						<textarea id="whremarks"></textarea>
+					</li>
+				</ol>
+			</fieldset>
+			<button id="btnBuy" type="submit">Buy</button>
+		</form>
+		<p/>
+		<div id="historyListing">
+			<h1>History</h1>
+			<div id="history"></div>
+		</div>
 	</body>
 	<script type="text/javascript" src="js/stock.js"></script>
 </html>
