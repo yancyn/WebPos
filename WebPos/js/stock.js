@@ -62,6 +62,7 @@ function loadRecord(i) {
     $("#remarks").val((item['remarks']).toString());
     
     showHistory(id);
+    countAvailable(id);
 }
 /**
  * Retrive purchase history record for stock selected.
@@ -86,6 +87,27 @@ function showHistory(i) {
             }
         });
     });
+}
+
+function countAvailable(id) {
+	$("#available").html("0");
+	var buyin = 0;
+	var sold = 0;	
+	db.transaction(function (tx) {
+		var sql = "select sum(qty) as total from warehouse where stock = "+id;
+		tx.executeSql(sql,[],function(tx,result){
+			if(result.rows.item(0)['total'] != null) buyin = result.rows.item(0)['total'];
+			
+			db.transaction(function (tx) {
+				sql = "select sum(qty) as sold from ReceiptItems where stock = "+id;
+				tx.executeSql(sql,[],function(tx,result){
+					if(result.rows.item(0)['sold'] != null) sold = result.rows.item(0)['sold'];
+					var balance = buyin-sold;
+					$("#available").val(balance);
+				});
+			});
+		});
+	});
 }
 
 /**
