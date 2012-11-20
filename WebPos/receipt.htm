@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html PUBLIC>
+<html>
+<!--
+@source http://tejasrpatel.wordpress.com/2011/12/29/create-sqlite-off-line-database-and-insertupdatedeletedrop-operations-in-sqlite-using-jquery-html5-inputs/?year=2011&monthnum=12&day=29&like=1&_wpnonce=5dada55fca&wpl_rand=c999cb245e
+-->
+	<head>
+		<title>Receipt</title>
+		<link rel="stylesheet" type="text/css" href="style/style.css" />
+		<style type="text/css">		
+		#receipt {
+			width: 400px;
+			height: 250px;
+			background: #C5BB2E;
+		}
+		</style>
+		<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+	</head>
+	<body>
+		<h1>Cash Receipt</h1>
+		<form id="receipt">
+			<fieldset>
+				<legend>Details</ledgend>
+				<ol>
+					<li>
+						<label for="id">No.</label>
+						<input type="text" id="id" readonly="readonly" />
+					</li>
+					<li>
+						<label for="created">Date</label>
+						<input id="created" type="text" />
+					</li>
+					<li>
+						<label for="remarks">Remarks</label>
+						<textarea id="remarks"></textarea>
+					</li>
+				</ol>
+			</fieldset>
+			<button id="btnReset" type="submit">reset</button>
+			<button id="submitButton" type="submit">save</button>
+			<button id="btnUpdate" type="submit">update</button>
+		</form><br/>
+		<div id="results"></div>
+	</body>
+	<script type="text/javascript" src="js/receipt.js"></script>
+</html>
