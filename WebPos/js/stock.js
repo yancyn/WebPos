@@ -167,7 +167,7 @@ function buyStock() {
 	var sql = "INSERT INTO Warehouse(stock,qty,buyat,remarks) VALUES(?,?,?,?)";
 	var id = $("#id").val();
     var qty = $('input:text[id=qty]').val();
-    var buyat = $('input:text[id=buyat]').val();
+    var buyat = $("#buyat").datepicker("getDate")/1000;
     var remarks = $("#whremarks").val();
     db.transaction(function (tx) {tx.executeSql(sql, [id,qty,buyat,remarks], loadAndReset, onError);});
 }
@@ -187,4 +187,8 @@ $(document).ready(function () {
     $("#btnBuy").click(buyStock);
     
     showRecords();
+});
+
+$(function(){
+	$("#buyat").datepicker({dateFormat: "dd/mm/yy"});
 });
