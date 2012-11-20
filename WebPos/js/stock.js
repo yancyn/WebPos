@@ -73,8 +73,6 @@ function showHistory(i) {
     	sql += " FROM Warehouse";
     	sql += " WHERE stock = "+i;
     	sql += " ORDER BY buyat DESC";
-    	//var sql = "SELECT COUNT(*) AS count FROM Warehouse WHERE stock = "+i;
-    	var count = -1;
         tx.executeSql(sql, [], function (tx, result) {
             if(result.rows.length == 0) {
             	$("#history").html("No record found!");
@@ -87,7 +85,6 @@ function showHistory(i) {
                 $("#history").append(linkeditdelete);
             }
         });
-        //alert(count);
     });
 }
 
@@ -100,6 +97,10 @@ function resetForm() {
     $("#name").val("");
     $("#price").val("0.00");
     $("#remarks").val("");
+    
+    $("#qty").val("");
+    $("#buyat").val("");
+    $("#whremarks").val("");
 }
 
 /**
@@ -146,8 +147,7 @@ function buyStock() {
     var qty = $('input:text[id=qty]').val();
     var buyat = $('input:text[id=buyat]').val();
     var remarks = $("#whremarks").val();
-    db.transaction(function (tx) { tx.executeSql(sql, [id,qty,buyat,remarks], loadAndReset, onError); });
-    console.log("buy in stock"+id+" qty: "+qty+" at "+buyat);
+    db.transaction(function (tx) {tx.executeSql(sql, [id,qty,buyat,remarks], loadAndReset, onError);});
 }
 
 /**
@@ -161,8 +161,7 @@ $(document).ready(function () {
     // Register Event Listener when button click.
     $("#submitButton").click(insertRecord);
     $("#btnUpdate").click(updateRecord);
-    $("#btnReset").click(resetForm);
-    
+    $("#btnReset").click(resetForm);    
     $("#btnBuy").click(buyStock);
     
     showRecords();
