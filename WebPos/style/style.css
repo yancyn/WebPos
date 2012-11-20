@@ -6,6 +6,10 @@ html, body, h1, form, fieldset, legend, ol, li {
     padding: 0;
 }
 
+h1 {
+	text-transform: uppercase;
+}
+
 body {
     background: #ffffff;
     color: #111111;
@@ -40,7 +44,7 @@ form legend {
 }
 
 form > fieldset > legend:before {
-    /*content: "Step " counter(fieldsets) ": "; */
+    /* content: "Step " counter(fieldsets) ": "; */
     counter-increment: fieldsets;
 }
 
@@ -106,6 +110,7 @@ form textarea:focus {
     background: #eaeaea;
 }
 
+#results button,
 form button {
     background: #384313;
     border: none;
@@ -139,4 +144,15 @@ form input[readonly="readonly"] {
 
 #results li {
 	list-style-type: decimal;
+	/*padding: 30px 0 0 0;*/
+	/*margin: 20px 0 10px 0;*/
+	height: 50px;
+	clear: both;
+	vertical-align: bottom;
 }
+
+/**
+ * Make alternative row different colors.
+ */
+#results li:nth-child(even) { background: #CCC;}
+#results li:nth-child(odd) {background: #FFF;}

@@ -9,25 +9,33 @@
 			width: 400px;
 			height: 320px;
 		}
-		form button {
-			background: #5C084C;
-		}
-		form button:hover {
+		form button,
+		#results button {background: #5C084C;}
+		
+		form button:hover,
+		#results button:hover {
 		    background: #5C084C;
 		    cursor: pointer;
 		}
+		
+		#results {width: 460px;}
+		#results button {
+			float: right;
+		}
+		#results li:nth-child(odd) { background: #BD2178;}
+		#results li:nth-child(even) {background: #FFF;}
 		</style>
 		<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 	</head>
 	<body>
-		<h1>Stock List</h1>
+		<h1>Stock Details</h1>
 		<form id="stock">
 			<fieldset>
-				<legend>Stock details</ledgend>
+				<!--<legend>Stock details</ledgend>-->
 				<ol>
 					<li>
 						<label for="code">Code</label>
-						<input id="code" type="text" />
+						<input id="code" type="text" required pattern=" " />
 						<input type="hidden" id="id" />
 					</li>
 					<li>
@@ -51,7 +59,9 @@
 			<button id="btnReset" type="submit">reset</button>
 			<button id="submitButton" type="submit">save</button>
 			<button id="btnUpdate" type="submit">update</button>
-		</form><br/>
+		</form><p/>
+		
+		<h1>Listing</h1>
 		<div id="results"></div>
 	</body>
 	<script type="text/javascript" src="js/stock.js"></script>

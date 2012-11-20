@@ -97,7 +97,10 @@ function showRecords() {
             dataset = result.rows;
             for (var i = 0, item = null; i < dataset.length; i++) {
                 item = dataset.item(i);
-                var linkeditdelete = '<li>' + item['code']+': '+item['name']+' '+item['price']+' '+ '<a href="#" onclick="loadRecord(' + i + ');">edit</a>' + '    ' + '<a href="#" onclick="deleteRecord(' + item['id'] + ');">delete</a></li>';
+                var linkeditdelete = '<li>' + item['code']+': '+item['name']+' $'+item['price']
+                	+ ' ' + '<button onclick="deleteRecord(' + item['id'] + ');">delete</button>'
+                	+ ' ' + '<button onclick="loadRecord(' + i + ');">edit</button>'
+                	+ '</li>';
                 $("#results").append(linkeditdelete);
             }
         });
