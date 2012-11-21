@@ -137,9 +137,14 @@ function loadAndReset() {
 
 /**
  * Handle error.
+ * Redirect to setup page if not table found.
  */
 function onError(tx, error) {
     alert(error.message);
+    var matches = error.message.match("no such table");
+    if(matches.length>0) {
+        window.location = "setup.htm";
+    }
 }
 
 /**
