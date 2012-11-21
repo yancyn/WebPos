@@ -4,7 +4,7 @@
 @source http://tejasrpatel.wordpress.com/2011/12/29/create-sqlite-off-line-database-and-insertupdatedeletedrop-operations-in-sqlite-using-jquery-html5-inputs/?year=2011&monthnum=12&day=29&like=1&_wpnonce=5dada55fca&wpl_rand=c999cb245e
 -->
 	<head>
-		<title>Receipt</title>
+		<title>Cash Receipt</title>
 		<link rel="stylesheet" type="text/css" href="style/style.css" />
 		<link rel="stylesheet" type="text/css" href="style/jquery-ui.css" />
 		<style type="text/css">		
@@ -13,17 +13,22 @@
 			height: 250px;
 			background: #C5BB2E;
 		}
-		#items {width: 550px;}
+		
+		#items {width: 600px;}
 		#items button {float:right;}
 		#items li {
-			list-style-type: none;
+			list-style-type: decimal;
 			height: 40px;
 			clear: both;
 			vertical-align: bottom;
 		}
 		#total {font-weight:bold;}
 		#footer {
-			width: 440px;
+			width: 400px;
+			text-align: right;
+		}
+		
+		.numberBox {
 			text-align: right;
 		}
 		</style>
@@ -43,7 +48,6 @@
 					<li>
 						<label for="created">Date</label>
 						<input id="created" type="text" readonly="readonly" />
-						<!--<input id="time" type="text" readonly="readonly" value="11:00" />-->
 					</li>
 					<li>
 						<label for="remarks">Remarks</label>
@@ -58,13 +62,15 @@
 		<p/>
 		
 		<h2>Items</h2>
-		<div id="items">
-			<li>Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 
-			Qty | Price | Amount</li>
-		</div>
+		<hr/>
+		Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 
+		Qty | Price | Amount
+		<hr/>
+		<div id="items"></div>
 		<div id="footer">
 			<hr/>
-			Total <input id="total" type="text" readonly="readonly" value="0.00"></input>
+			Total 
+			<input id="total" class="numberBox" type="text" readonly="readonly" value="0.00"></input>
 			<hr/>
 		</div>
 	</body>

@@ -4,6 +4,7 @@ var insertStatement = "INSERT INTO Receipts(created,sum,remarks) VALUES(?,?,?)";
 var deleteStatement = "DELETE FROM Receipts WHERE id=?";
 var selectAllStatement = "SELECT * FROM Receipts";
 var dataset;
+var html;
 
 /**
  * Get value from Input and insert record. Called when Save/Submit Button Click.
@@ -11,20 +12,7 @@ var dataset;
  */
 function insertRecord() {
     var code = $('input:text[id=code]').val();
-    var name = $('input:text[id=name]').val();
-    if(name.length == 0) {
-    	alert("Name cannot be blank!");
-    	return;
-	}
-    
-    //TODO: validate price
-    var price = $('input:text[id=price]').val();
-    //if(!price.match("\d+(\.\d{1,2})?")) {
-    //	alert("Please provide a valid price. ie. 1.23");
-    //	return;
-    //}
-    
-    var remarks = $("#remarks").val();
+    var name = $('input:text[id=name]').val();   
     db.transaction(function (tx) { tx.executeSql(insertStatement, [code,name,price,remarks], loadAndReset, onError); });
 }
 
@@ -42,8 +30,6 @@ function deleteRecord(id) {
 function updateRecord() {
 	var id = $("#id").val();
     var code = $('input:text[id=code]').val().toString();
-    var name = $('input:text[id=name]').val().toString();
-    var price = $('input:text[id=price]').val().toString();
     var remarks = $("#remarks").val();
     db.transaction(function (tx) { tx.executeSql(updateStatement, [code,name,price,remarks,id], loadAndReset, onError); });
 }
@@ -73,17 +59,40 @@ function resetForm() {
  * Create one empty receipt item.
  */
 function addItem() {
-	var i = $("#items li").size();
-    var line = "";
-    line += "<li>";
-    line += "<button onclick='removeItem("+i+")'>delete</button>";
-    line += "<button onclick='addItem()'>add</button>";
-    line += "<input type='text'></input>";
-    line += "<input type='text' style='width:60px'></input>";
-    line += "<input type='text' readonly='readonly' style='width:60px'></input>";
-    line += "<input type='text' readonly='readonly' style='width:60px'></input>";
-    line += "</li>";
-    $("#items").append(line);
+
+	db.transaction(function(tx) {
+    	var sql = "SELECT * FROM Stocks";
+	    tx.executeSql(sql,[],function(tx,result) {
+	
+			var i = $("#items li").size();			
+			var ddl = "<select id='stock"+i+"' style='width:200px'>";
+			ddl += "<option></option>";
+			dataset = result.rows;
+	        for (var j = 0, item = null; j < dataset.length; j++) {
+	            item = dataset.item(j);
+	            var displayText = item['code'] + '    ' + item['name'];
+	            var value = item['id']+','+item['price'];
+				ddl += "<option value="+value+">";
+				ddl += displayText;
+				ddl += "</option>";
+	        }
+	        ddl += "</select>";
+	        
+		    var line = "";
+		    line += "<li>";
+		    line += "<button onclick='removeItem("+i+")'>delete</button>";
+		    line += "<button onclick='addItem()'>add</button>";
+		    line += ddl;
+		    
+		    var js = 'calculateAmount('+i+',document.getElementById("qty'+i+'").value'+')';
+		    line += "<input id='qty"+i+"' class='numberBox' type='text' style='width:60px' onchange='"+js+"'></input>";
+		    line += "<input id='price"+i+"' class='numberBox' type='text' readonly='readonly' style='width:60px'></input>";
+		    line += "<input id='amount"+i+"' class='numberBox' type='text' readonly='readonly' style='width:60px'></input>";
+		    line += "</li>";		    
+		    
+		    $("#items").append(line);
+	    })
+    });
 }
 /**
  * Remove child item.
@@ -91,6 +100,40 @@ function addItem() {
 function removeItem(index) {
 	console.log("removeItem("+index+")");
 	$("#items li").eq(index).replaceWith("");
+	
+	calculateTotal();
+}
+
+/**
+ * Display unit price and calculate the amount based on quantity.
+ */
+function calculateAmount(index,qty) {
+	var chunks = $("#stock"+index).val().split(",");
+	var price = parseFloat(chunks[1]);
+	var amount = qty*price;	
+	$("#price"+index).val(price.toFixed(2));
+	$("#amount"+index).val(amount.toFixed(2));
+	
+	calculateTotal();
+}
+/**
+ * Display total amount for all item purchase.
+ */
+function calculateTotal() {
+	var i=0;
+	var sum = 0.00;
+	$("#items li").each(function(i,v){
+		if($("#amount"+i).val() != null) {
+			amount = parseFloat($("#amount"+i).val());
+			if(amount > 0) {
+				sum += amount;
+				console.log(sum);
+			}
+		}
+		
+		i++;
+	});
+	$("#total").val(sum.toFixed(2));
 }
 
 /**
