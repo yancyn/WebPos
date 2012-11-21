@@ -191,6 +191,10 @@ $(document).ready(function () {
     showRecords();
 });
 
+/**
+ * Initial page load.
+ * @see http://jqueryui.com/datepicker/
+ */
 $(function(){
 	$("#buyat").datepicker({dateFormat: "dd-M-yy"});
 });
