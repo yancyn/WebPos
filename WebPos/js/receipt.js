@@ -11,7 +11,7 @@ function insertRecord() {
     var created = $("#created").datepicker("getDate")/1000;
     var total = parseFloat($('input:text[id=total]').val());
     var remarks = $("#remarks").val();
-    ..alert(created+" "+total+" "+remarks);
+    alert(created+" "+total+" "+remarks);
     db.transaction(
     	function (tx) {
     		tx.executeSql(insertStatement, [created,total,remarks], loadAndReset, onError);
