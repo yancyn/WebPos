@@ -2,7 +2,10 @@
 var db = openDatabase("Pos", "1.0", "Web Point of Sales", 4*1024*1024);
 var insertStatement = "INSERT INTO Receipts(created,total,remarks) VALUES(?,?,?);";//SELECT last_insert_rowid();";
 var deleteStatement = "DELETE FROM Receipts WHERE id=?";
-var selectAllStatement = "SELECT * FROM Receipts";
+var selectAllStatement = "SELECT Receipts.*, ReceiptItems.*";
+selectAllStatement += " FROM Receipts";
+selectAllStatement += " JOIN ReceiptItems ON Receipts.id=ReceiptItems.parent";
+selectAllStatement += " WHERE Receipts.id = ?;"
 var dataset;
 
 /**
@@ -41,7 +44,7 @@ function insertItems(parent) {
           var qty = $(this).children("input").eq(0).val();
           
           console.log("inserting "+parent+","+stock+","+qty);
-          tx.executeSql(sql,[parent,stock,qty]);
+          if(qty>0) tx.executeSql(sql,[parent,stock,qty]);
         });
         
         onSuccess(parent);
@@ -54,7 +57,7 @@ function onSuccess(id) {
 }
 
 /**
- * Get id of record . Called when Delete Button Click.
+ * Get id of record. Called when Delete Button Click.
  */
 function deleteRecord(id) {
     db.transaction(function (tx) {
@@ -165,6 +168,22 @@ function calculateTotal() {
 		i++;
 	});
 	$("#total").val(sum.toFixed(2));
+}
+
+function loadRecord() {
+  var id = $("#no").val();
+  console.log("loadRecord("+id+")");
+  db.transaction(function(tx) {
+    tx.executeSql(selectAllStatement,[id],function(tx,result) {
+      $("#id").val(result.rows.item(0)['id']);
+      //TODO: $("#created").val(result.rows.item(0)['created']);
+      $("#remarks").val(result.rows.item(0)['remarks']);
+      for(var i=0;i<result.rows.length;i++) {
+        var item = result.rows.item(i);
+        console.log(item['stock']+","+item['qty']);        
+      }
+    });
+  });  
 }
 
 /**

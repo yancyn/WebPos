@@ -29,12 +29,20 @@
 			text-align: right;
 			width: 60px;
 		}
+		
+		#search {
+		  float: right;
+		}
 		</style>
 		<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.js"></script>
 	</head>
 	<body>
 		<h1>Cash Receipt</h1>
+		<div id="search">
+  		<input id="no" type="text"/>
+  		<img src="img/magnifier.png" cursor="hand" onclick="loadRecord()"/>
+		</div>
 		<div class="box" id="receipt">
 			<fieldset>
 				<legend>Details</ledgend>

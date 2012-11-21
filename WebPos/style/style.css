@@ -175,3 +175,6 @@ form input[readonly="readonly"] {
  */
 #results li:nth-child(even) { background: #CCC;}
 #results li:nth-child(odd) {background: #FFF;}
+
+
+img:hover {cursor: hand;}
