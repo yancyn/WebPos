@@ -32,7 +32,7 @@ function insertRecord() {
  * Get id of record . Called when Delete Button Click.
  */
 function deleteRecord(id) {
-    db.transaction(function (tx) { tx.executeSql(deleteStatement, [id], showRecords, onError); alert("Delete Sucessfully"); });
+    db.transaction(function (tx) { tx.executeSql(deleteStatement, [id], loadAndReset, onError); alert("Delete Sucessfully"); });
     resetForm();
 }
 
@@ -55,58 +55,8 @@ function loadRecord(i) {
     var item = dataset.item(i);
     var id = (item['id']).toString();
     $("#id").val(id);
-    $("#code").val((item['code']).toString());
-    $("#name").val((item['name']).toString());
-    $("#price").val((item['price']).toString());
+    $("#created").val((item['code']).toString());
     $("#remarks").val((item['remarks']).toString());
-    
-    showHistory(id);
-    countAvailable(id);
-}
-/**
- * Retrive purchase history record for stock selected.
- */
-function showHistory(i) {
-    $("#history").html('');
-    db.transaction(function (tx) {
-    	var sql = "SELECT stock, qty, datetime(buyat,'unixepoch','localtime') AS localdate, remarks";
-    	sql += " FROM Warehouse";
-    	sql += " WHERE stock = "+i;
-    	sql += " ORDER BY buyat DESC";
-        tx.executeSql(sql, [], function (tx, result) {
-            if(result.rows.length == 0) {
-            	$("#history").html("No record found!");
-            	return;
-			}
-            
-            for (var i = 0, item = null; i < result.rows.length; i++) {
-                item = result.rows.item(i);
-                var linkeditdelete = '<li>' + item['localdate']+': '+item['qty'] + 'pcs</li>';
-                $("#history").append(linkeditdelete);
-            }
-        });
-    });
-}
-
-function countAvailable(id) {
-	$("#available").html("0");
-	var buyin = 0;
-	var sold = 0;	
-	db.transaction(function (tx) {
-		var sql = "select sum(qty) as total from warehouse where stock = "+id;
-		tx.executeSql(sql,[],function(tx,result){
-			if(result.rows.item(0)['total'] != null) buyin = result.rows.item(0)['total'];
-			
-			db.transaction(function (tx) {
-				sql = "select sum(qty) as sold from ReceiptItems where stock = "+id;
-				tx.executeSql(sql,[],function(tx,result){
-					if(result.rows.item(0)['sold'] != null) sold = result.rows.item(0)['sold'];
-					var balance = buyin-sold;
-					$("#available").val(balance);
-				});
-			});
-		});
-	});
 }
 
 /**
@@ -114,14 +64,33 @@ function countAvailable(id) {
  */
 function resetForm() {
 	$("#id").val("");
-    $("#code").val("");
-    $("#name").val("");
-    $("#price").val("0.00");
+    $("#created").datepicker("setDate", new Date());
     $("#remarks").val("");
-    
-    $("#qty").val("");
-    $("#buyat").val("");
-    $("#whremarks").val("");
+    addItem();
+}
+
+/**
+ * Create one empty receipt item.
+ */
+function addItem() {
+	var i = $("#items li").size();
+    var line = "";
+    line += "<li>";
+    line += "<button onclick='removeItem("+i+")'>delete</button>";
+    line += "<button onclick='addItem()'>add</button>";
+    line += "<input type='text'></input>";
+    line += "<input type='text' style='width:60px'></input>";
+    line += "<input type='text' readonly='readonly' style='width:60px'></input>";
+    line += "<input type='text' readonly='readonly' style='width:60px'></input>";
+    line += "</li>";
+    $("#items").append(line);
+}
+/**
+ * Remove child item.
+ */
+function removeItem(index) {
+	console.log("removeItem("+index+")");
+	$("#items li").eq(index).replaceWith("");
 }
 
 /**
@@ -129,7 +98,6 @@ function resetForm() {
  */
 function loadAndReset() {
     resetForm();
-    showRecords();
 }
 
 /**
@@ -137,38 +105,6 @@ function loadAndReset() {
  */
 function onError(tx, error) {
     alert(error.message);
-}
-
-/**
- * Retrive data from Database Display records as list.
- */
-function showRecords() {
-    $("#results").html('');
-    db.transaction(function (tx) {
-        tx.executeSql(selectAllStatement, [], function (tx, result) {
-            dataset = result.rows;
-            for (var i = 0, item = null; i < dataset.length; i++) {
-                item = dataset.item(i);
-                var linkeditdelete = '<li>' + item['code']+': '+item['name']+' $'+item['price']
-                	+ ' ' + '<button onclick="deleteRecord(' + item['id'] + ');">delete</button>'
-                	+ ' ' + '<button onclick="loadRecord(' + i + ');">edit</button>'
-                	+ '</li>';
-                $("#results").append(linkeditdelete);
-            }
-        });
-    });
-}
-
-/**
- * Purchase stock into warehouse.
- */
-function buyStock() {
-	var sql = "INSERT INTO Warehouse(stock,qty,buyat,remarks) VALUES(?,?,?,?)";
-	var id = $("#id").val();
-    var qty = $('input:text[id=qty]').val();
-    var buyat = $('input:text[id=buyat]').val();
-    var remarks = $("#whremarks").val();
-    db.transaction(function (tx) {tx.executeSql(sql, [id,qty,buyat,remarks], loadAndReset, onError);});
 }
 
 /**
@@ -180,10 +116,13 @@ $(document).ready(function () {
     $("body").fadeIn(2000);
     
     // Register Event Listener when button click.
+    $("#btnReset").click(resetForm);
     $("#submitButton").click(insertRecord);
     $("#btnUpdate").click(updateRecord);
-    $("#btnReset").click(resetForm);    
-    $("#btnBuy").click(buyStock);
-    
-    showRecords();
+    resetForm();
+});
+
+$(function() {
+	$("#created").datepicker({dateFormat: "dd-M-yy"});
+	$("#created").datepicker("setDate", new Date());
 });

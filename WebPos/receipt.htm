@@ -6,14 +6,29 @@
 	<head>
 		<title>Receipt</title>
 		<link rel="stylesheet" type="text/css" href="style/style.css" />
+		<link rel="stylesheet" type="text/css" href="style/jquery-ui.css" />
 		<style type="text/css">		
 		#receipt {
 			width: 400px;
 			height: 250px;
 			background: #C5BB2E;
 		}
+		#items {width: 550px;}
+		#items button {float:right;}
+		#items li {
+			list-style-type: none;
+			height: 40px;
+			clear: both;
+			vertical-align: bottom;
+		}
+		#total {font-weight:bold;}
+		#footer {
+			width: 440px;
+			text-align: right;
+		}
 		</style>
 		<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui.js"></script>
 	</head>
 	<body>
 		<h1>Cash Receipt</h1>
@@ -27,7 +42,8 @@
 					</li>
 					<li>
 						<label for="created">Date</label>
-						<input id="created" type="text" />
+						<input id="created" type="text" readonly="readonly" />
+						<!--<input id="time" type="text" readonly="readonly" value="11:00" />-->
 					</li>
 					<li>
 						<label for="remarks">Remarks</label>
@@ -38,8 +54,19 @@
 			<button id="btnReset" type="submit">reset</button>
 			<button id="submitButton" type="submit">save</button>
 			<button id="btnUpdate" type="submit">update</button>
-		</form><br/>
-		<div id="results"></div>
+		</form>
+		<p/>
+		
+		<h2>Items</h2>
+		<div id="items">
+			<li>Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 
+			Qty | Price | Amount</li>
+		</div>
+		<div id="footer">
+			<hr/>
+			Total <input id="total" type="text" readonly="readonly" value="0.00"></input>
+			<hr/>
+		</div>
 	</body>
 	<script type="text/javascript" src="js/receipt.js"></script>
 </html>

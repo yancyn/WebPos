@@ -17,11 +17,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "js", "js", "{9553E515-61B7-
 		WebPos\js\contact.js = WebPos\js\contact.js
 		WebPos\js\stock.js = WebPos\js\stock.js
 		WebPos\js\receipt.js = WebPos\js\receipt.js
+		WebPos\js\jquery-ui.js = WebPos\js\jquery-ui.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "style", "style", "{D4FE3CC4-871C-4F2C-A8D0-B692FEB07E71}"
 	ProjectSection(SolutionItems) = postProject
 		WebPos\style\style.css = WebPos\style\style.css
+		WebPos\style\jquery-ui.css = WebPos\style\jquery-ui.css
 	EndProjectSection
 EndProject
 Global

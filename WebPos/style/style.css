@@ -125,6 +125,7 @@ form textarea:focus {
     background: #eaeaea;
 }
 
+button,
 .box button,
 #results button,
 form button {
@@ -145,6 +146,7 @@ form button {
     text-transform: uppercase;
 }
 
+button:hover,
 .box button:hover,
 form button:hover {
     background: #1e2506;
@@ -154,6 +156,7 @@ form button:hover {
 /**
  * Make input like a label for those readonly attribute.
  */
+input[readonly="readonly"],
 .box input[readonly="readonly"],
 form input[readonly="readonly"] {
 	border: none;
@@ -162,8 +165,6 @@ form input[readonly="readonly"] {
 
 #results li {
 	list-style-type: decimal;
-	/*padding: 30px 0 0 0;*/
-	/*margin: 20px 0 10px 0;*/
 	height: 50px;
 	clear: both;
 	vertical-align: bottom;

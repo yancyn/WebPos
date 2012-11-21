@@ -61,6 +61,8 @@ function loadRecord(i) {
     $("#price").val((item['price']).toString());
     $("#remarks").val((item['remarks']).toString());
     
+    $("#buyat").datepicker("setDate", new Date());
+    
     showHistory(id);
     countAvailable(id);
 }
@@ -190,5 +192,5 @@ $(document).ready(function () {
 });
 
 $(function(){
-	$("#buyat").datepicker({dateFormat: "dd/mm/yy"});
+	$("#buyat").datepicker({dateFormat: "dd-M-yy"});
 });
