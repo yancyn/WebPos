@@ -45,7 +45,7 @@ function createTable() {
     	tx.executeSql(createStatement,[],null,onError);
     	
     	console.log("creating table [Receipts]");
-    	createStatement = "CREATE TABLE IF NOT EXISTS Receipts(id INTEGER PRIMARY KEY AUTOINCREMENT, created INTEGER, sum REAL, remarks TEXT);";
+    	createStatement = "CREATE TABLE IF NOT EXISTS Receipts(id INTEGER PRIMARY KEY AUTOINCREMENT, created INTEGER, total REAL, remarks TEXT);";
     	tx.executeSql(createStatement,[],null,onError);
     	
     	console.log("creating table [ReceiptItems]");

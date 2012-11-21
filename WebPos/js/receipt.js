@@ -1,27 +1,32 @@
 ﻿//  Declare SQL Query for SQLite
 var db = openDatabase("Pos", "1.0", "Web Point of Sales", 4*1024*1024);
-var insertStatement = "INSERT INTO Receipts(created,sum,remarks) VALUES(?,?,?)";
+var insertStatement = "INSERT INTO Receipts(created,total,remarks) VALUES(?,?,?)";
 var deleteStatement = "DELETE FROM Receipts WHERE id=?";
 var selectAllStatement = "SELECT * FROM Receipts";
-var dataset;
-var html;
 
 /**
  * Get value from Input and insert record. Called when Save/Submit Button Click.
- * TODO: Handle case where user press a wrong button instead just want to update.
  */
 function insertRecord() {
-    var code = $('input:text[id=code]').val();
-    var name = $('input:text[id=name]').val();   
-    db.transaction(function (tx) { tx.executeSql(insertStatement, [code,name,price,remarks], loadAndReset, onError); });
+    var created = $("#created").datepicker("getDate")/1000;
+    var total = parseFloat($('input:text[id=total]').val());
+    var remarks = $("#remarks").val();
+    ..alert(created+" "+total+" "+remarks);
+    db.transaction(
+    	function (tx) {
+    		tx.executeSql(insertStatement, [created,total,remarks], loadAndReset, onError);
+    		alert("Save successfully");
+	});
 }
 
 /**
  * Get id of record . Called when Delete Button Click.
  */
 function deleteRecord(id) {
-    db.transaction(function (tx) { tx.executeSql(deleteStatement, [id], loadAndReset, onError); alert("Delete Sucessfully"); });
-    resetForm();
+    db.transaction(function (tx) {
+    	tx.executeSql(deleteStatement, [id], loadAndReset, onError);
+    	alert("Delete Sucessfully");
+	});
 }
 
 /**
@@ -35,24 +40,16 @@ function updateRecord() {
 }
 
 /**
- * Display records which are retrived from database.
- */
-function loadRecord(i) {
-    var item = dataset.item(i);
-    var id = (item['id']).toString();
-    $("#id").val(id);
-    $("#created").val((item['code']).toString());
-    $("#remarks").val((item['remarks']).toString());
-}
-
-/**
  * Reset form input values.
  */
 function resetForm() {
 	$("#id").val("");
     $("#created").datepicker("setDate", new Date());
     $("#remarks").val("");
+    
+    $("#items").val("");
     addItem();
+    $("#total").val("0.00");
 }
 
 /**
@@ -67,7 +64,7 @@ function addItem() {
 			var i = $("#items li").size();			
 			var ddl = "<select id='stock"+i+"' style='width:200px'>";
 			ddl += "<option></option>";
-			dataset = result.rows;
+			var dataset = result.rows;
 	        for (var j = 0, item = null; j < dataset.length; j++) {
 	            item = dataset.item(j);
 	            var displayText = item['code'] + '    ' + item['name'];
@@ -162,7 +159,7 @@ $(document).ready(function () {
     $("#btnReset").click(resetForm);
     $("#submitButton").click(insertRecord);
     $("#btnUpdate").click(updateRecord);
-    resetForm();
+    loadAndReset();
 });
 
 $(function() {
