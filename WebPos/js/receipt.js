@@ -1,22 +1,56 @@
 ﻿//  Declare SQL Query for SQLite
 var db = openDatabase("Pos", "1.0", "Web Point of Sales", 4*1024*1024);
-var insertStatement = "INSERT INTO Receipts(created,total,remarks) VALUES(?,?,?)";
+var insertStatement = "INSERT INTO Receipts(created,total,remarks) VALUES(?,?,?);";//SELECT last_insert_rowid();";
 var deleteStatement = "DELETE FROM Receipts WHERE id=?";
 var selectAllStatement = "SELECT * FROM Receipts";
+var dataset;
 
 /**
  * Get value from Input and insert record. Called when Save/Submit Button Click.
  */
 function insertRecord() {
+    console.log("insertRecord");
     var created = $("#created").datepicker("getDate")/1000;
-    var total = parseFloat($('input:text[id=total]').val());
+    var total = parseFloat($("#total").val());
     var remarks = $("#remarks").val();
-    alert(created+" "+total+" "+remarks);
-    db.transaction(
-    	function (tx) {
-    		tx.executeSql(insertStatement, [created,total,remarks], loadAndReset, onError);
-    		alert("Save successfully");
-	});
+    db.transaction(function(tx) {
+      tx.executeSql(insertStatement,[created,total,remarks],getNewId,onError);
+    });
+}
+
+function getNewId() {
+  var sql = "SELECT last_insert_rowid();";
+  db.transaction(function(tx) {
+      tx.executeSql(sql,[],function(tx,result) {
+        var id = result.rows.item(0)['last_insert_rowid()'];
+        console.log("New Id:"+id);
+        insertItems(id);
+      });
+  });
+}
+
+/**
+ * Insert all items into child table.
+ */
+function insertItems(parent) {
+    console.log("insertItems("+parent+")");
+    db.transaction(function(tx) {
+        $("#items li").each(function(index){          
+          var sql = "INSERT INTO ReceiptItems(parent,stock,qty) VALUES(?,?,?)";
+          var stock = $("select", this).val().split(",")[0];
+          var qty = $(this).children("input").eq(0).val();
+          
+          console.log("inserting "+parent+","+stock+","+qty);
+          tx.executeSql(sql,[parent,stock,qty]);
+        });
+        
+        onSuccess(parent);
+    });
+}
+
+function onSuccess(id) {
+  alert("#"+id+" save successfully");
+  window.location = "receipt.htm";
 }
 
 /**
@@ -43,7 +77,7 @@ function updateRecord() {
  * Reset form input values.
  */
 function resetForm() {
-	$("#id").val("");
+	  $("#id").val("");
     $("#created").datepicker("setDate", new Date());
     $("#remarks").val("");
     
@@ -142,9 +176,14 @@ function loadAndReset() {
 
 /**
  * Handle error.
+ * Redirect to setup page if not table found.
  */
 function onError(tx, error) {
     alert(error.message);
+    var matches = error.message.match("no such table");
+    if(matches.length>0) {
+        window.location = "setup.htm";
+    }
 }
 
 /**
@@ -156,9 +195,9 @@ $(document).ready(function () {
     $("body").fadeIn(2000);
     
     // Register Event Listener when button click.
-    $("#btnReset").click(resetForm);
-    $("#submitButton").click(insertRecord);
-    $("#btnUpdate").click(updateRecord);
+    //$("#btnReset").click(resetForm);
+    //$("#submitButton").click(insertRecord);
+    //$("#btnUpdate").click(updateRecord);
     loadAndReset();
 });
 

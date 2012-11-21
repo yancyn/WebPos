@@ -27,6 +27,7 @@
 		
 		.numberBox {
 			text-align: right;
+			width: 60px;
 		}
 		</style>
 		<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
@@ -34,7 +35,7 @@
 	</head>
 	<body>
 		<h1>Cash Receipt</h1>
-		<form id="receipt">
+		<div class="box" id="receipt">
 			<fieldset>
 				<legend>Details</ledgend>
 				<ol>
@@ -52,10 +53,10 @@
 					</li>
 				</ol>
 			</fieldset>
-			<button id="btnReset" type="submit">reset</button>
-			<button id="submitButton" type="submit">save</button>
-			<button id="btnUpdate" type="submit">update</button>
-		</form>
+			<button id="btnReset" onclick="window.location='receipt.htm'">reset</button>
+			<button id="submitButton" onclick="insertRecord();">save</button>
+			<button id="btnUpdate">update</button>
+		</div>
 		<p/>
 		
 		<h2>Items</h2>
