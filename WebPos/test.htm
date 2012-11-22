@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html PUBLIC>
+<html>
+	<head>
+		<title>Test Page</title>
+		<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var today = new Date();
+				var year = today.getYear() + 1900;
+				var month = today.getMonth() + 1;
+				alert("Year: "+year+"\nMonth: "+month);
+				
+				var date = new Date(2012,1-1,1);
+				year = date.getYear() + 1900;
+				month = date.getMonth() + 1;
+				alert("Year: "+year+"\nMonth: "+month);
+			});
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

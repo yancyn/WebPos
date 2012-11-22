@@ -27,7 +27,7 @@ function showRecords() {
 				$("#id"+i).formatNumber({format:"000000", local:"US"});
 				
 				$("#created"+i).datepicker({dateFormat: "dd-M-yy"});
-				$("#created"+i).datepicker("setDate",new Date(item["created"]*1000));
+				$("#created"+i).datepicker("setDate",new Date(item["created"]*1000)); 
 				
 				$("#total"+i).val(item["total"]);
 				$("#total"+i).formatNumber({format:"###,###,###.00", local:"US"});
@@ -37,7 +37,7 @@ function showRecords() {
 }
 
 /**
- * Display sales in line graph.
+ * Display sales in graph.
  * @source http://designmodo.com/create-interactive-graph-css3-jquery/
  */
 function showGraph() {
