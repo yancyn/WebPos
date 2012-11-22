@@ -9,6 +9,11 @@ selectAllStatement += " WHERE Receipts.id = ?;"
 var dataset;
 
 /**
+ * All stocks drop down selection.
+ */
+var optionRows;
+
+/**
  * Get value from Input and insert record. Called when Save/Submit Button Click.
  */
 function insertRecord() {
@@ -99,19 +104,20 @@ function addItem() {
     	var sql = "SELECT * FROM Stocks";
 	    tx.executeSql(sql,[],function(tx,result) {
 	
-			var i = $("#items li").size();			
-			var ddl = "<select id='stock"+i+"' style='width:200px'>";
-			ddl += "<option value=''></option>";
+			var i = $("#items li").size();
+			
+			optionRows = "";
+			optionRows += "<option value=''></option>";
 			var dataset = result.rows;
 	        for (var j = 0, item = null; j < dataset.length; j++) {
 	            item = dataset.item(j);
 	            var displayText = item['code'] + '    ' + item['name'];
 	            var value = item['id']+','+item['price'];
-				ddl += "<option value="+value+">";
-				ddl += displayText;
-				ddl += "</option>";
+				optionRows += "<option value="+value+">";
+				optionRows += displayText;
+				optionRows += "</option>";
 	        }
-	        ddl += "</select>";
+	        var ddl = "<select id='stock"+i+"' style='width:200px'>" + optionRows + "</select>";
 	        
 		    var line = "";
 		    line += "<li>";
@@ -126,6 +132,20 @@ function addItem() {
 		    line += "</li>";		    
 		    
 		    $("#items").append(line);
+		    
+		    //HACK: if query string found
+		    //@seealso page_load
+		    var params = parseQueryString();
+		    $.each(params,function(i,v) {
+		    	var pairs = v.split("=");
+		    	var key = pairs[0];
+		    	var value = pairs[1];
+		    	if(key == "id") {
+		    		$("#no").val(value);
+		    		loadRecord(value);
+		    		return;
+		    	}
+		    });
 	    })
     });
 }
@@ -159,6 +179,8 @@ function removeItem(index) {
  * Display unit price and calculate the amount based on quantity.
  */
 function calculateAmount(index,qty) {
+	if($("#stock"+index).val() == null || $("#stock"+index).val() == "") return;
+	
 	var chunks = $("#stock"+index).val().split(",");
 	var price = parseFloat(chunks[1]);
 	var amount = qty*price;	
@@ -193,8 +215,10 @@ function calculateTotal() {
  */
 function loadRecord(id) {
   //var id = $("#no").val();
-  console.log("loadRecord("+id+")");
-  var ddl = $("#stock0").html();
+  console.log("loadRecord("+id+")");  
+  var lastList = $("#items li").size()-1;
+  var ddl = $("#stock"+lastList).html();
+  //alert(ddl);
   $("#items").empty();
   
   db.transaction(function(tx) {
@@ -273,17 +297,31 @@ function onError(tx, error) {
 }
 
 /**
+ * Parse query string as cake params collection.
+ * @see http://paulgueller.com/2011/04/26/parse-the-querystring-with-jquery/
+ */
+function parseQueryString() {
+	var params = {};
+	var qs = window.location.search.replace('?','');
+	var pairs = qs.split('/');
+	var counter = 0;
+	jQuery.each(pairs,function(i,v){
+    	if(v.length>0) {
+			params[counter] = v;
+			counter++;
+    	}
+    });
+    //console.log(params);
+    return params;
+}
+
+/**
  * Called when page is ready for load.
  */
 $(document).ready(function () {
 
 	//Fade In Effect when Page Load.
-    $("body").fadeIn(2000);
-    
-    // Register Event Listener when button click.
-    //$("#btnReset").click(resetForm);
-    //$("#submitButton").click(insertRecord);
-    //$("#btnUpdate").click(updateRecord);
+    $("body").fadeIn(2000);    
     loadAndReset();
 });
 
