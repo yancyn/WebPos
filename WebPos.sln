@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		WebPos\setup.htm = WebPos\setup.htm
 		WebPos\receipt.htm = WebPos\receipt.htm
 		WebPos\jquery-ui.css = WebPos\jquery-ui.css
+		WebPos\sales.htm = WebPos\sales.htm
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "js", "js", "{9553E515-61B7-4335-8FD6-C353C75D3055}"
@@ -19,6 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "js", "js", "{9553E515-61B7-
 		WebPos\js\stock.js = WebPos\js\stock.js
 		WebPos\js\receipt.js = WebPos\js\receipt.js
 		WebPos\js\jquery-ui.js = WebPos\js\jquery-ui.js
+		WebPos\js\sales.js = WebPos\js\sales.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "style", "style", "{D4FE3CC4-871C-4F2C-A8D0-B692FEB07E71}"

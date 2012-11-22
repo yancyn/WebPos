@@ -178,3 +178,18 @@ form input[readonly="readonly"] {
 
 
 img:hover {cursor: hand;}
+
+/**
+ * Apply to numeric input.
+ */
+.numberBox {
+	text-align: right;
+	width: 60px;
+}
+
+/**
+ * Apply to date control.
+ */
+.dateBox {
+	text-align: right;
+}

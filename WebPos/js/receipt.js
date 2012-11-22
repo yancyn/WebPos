@@ -218,7 +218,6 @@ function loadRecord(id) {
   console.log("loadRecord("+id+")");  
   var lastList = $("#items li").size()-1;
   var ddl = $("#stock"+lastList).html();
-  //alert(ddl);
   $("#items").empty();
   
   db.transaction(function(tx) {
@@ -228,8 +227,8 @@ function loadRecord(id) {
     	if(result.rows.length>0) {
     	
 	      	$("#id").val(result.rows.item(0)['id']);
-	      	$("#id").formatNumber({format:"000000", local:"US"});
-	      	//TODO: $("#created").val(result.rows.item(0)['created']);
+	      	$("#id").formatNumber({format:"000000", local:"US"});	      	
+			$("#created").datepicker("setDate", new Date(result.rows.item(0)['created']*1000));
 	      	$("#remarks").val(result.rows.item(0)['remarks']);
 	      	for(var i=0;i<result.rows.length;i++) {
 	      		
