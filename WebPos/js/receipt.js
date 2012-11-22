@@ -52,8 +52,9 @@ function insertItems(parent) {
 }
 
 function onSuccess(id) {
-  alert("#"+id+" save successfully");
-  window.location = "receipt.htm";
+    //id.toString().formatNumber({format:"000000", local:"US"});
+  	alert("#"+id+" save successfully");
+  	window.location = "receipt.htm";
 }
 
 /**
@@ -100,7 +101,7 @@ function addItem() {
 	
 			var i = $("#items li").size();			
 			var ddl = "<select id='stock"+i+"' style='width:200px'>";
-			ddl += "<option></option>";
+			ddl += "<option value=''></option>";
 			var dataset = result.rows;
 	        for (var j = 0, item = null; j < dataset.length; j++) {
 	            item = dataset.item(j);
@@ -127,6 +128,22 @@ function addItem() {
 		    $("#items").append(line);
 	    })
     });
+}
+/**
+ * Clone an empty row without query from database.
+ * @seealso addItem
+ */
+function cloneRow(i,ddl) {	
+	
+	var line = "";
+	line += "<li>";
+	line += "<select id='stock"+i+"' style='width:200px'>"+ddl+"</select>";
+	line += "<input id='qty"+i+"' class='numberBox' type='text' style='width:60px'></input>";
+	line += "<input id='price"+i+"' class='numberBox' type='text' readonly='readonly' style='width:60px'></input>";
+	line += "<input id='amount"+i+"' class='numberBox' type='text' readonly='readonly' style='width:60px'></input>";
+	line += "</li>";		    
+	
+	$("#items").append(line);
 }
 /**
  * Remove child item.
@@ -170,20 +187,70 @@ function calculateTotal() {
 	$("#total").val(sum.toFixed(2));
 }
 
-function loadRecord() {
-  var id = $("#no").val();
+/**
+ * Retrieve receipt record based on id provided.
+ * @see http://code.google.com/p/jquery-numberformatter/
+ */
+function loadRecord(id) {
+  //var id = $("#no").val();
   console.log("loadRecord("+id+")");
+  var ddl = $("#stock0").html();
+  $("#items").empty();
+  
   db.transaction(function(tx) {
     tx.executeSql(selectAllStatement,[id],function(tx,result) {
-      $("#id").val(result.rows.item(0)['id']);
-      //TODO: $("#created").val(result.rows.item(0)['created']);
-      $("#remarks").val(result.rows.item(0)['remarks']);
-      for(var i=0;i<result.rows.length;i++) {
-        var item = result.rows.item(i);
-        console.log(item['stock']+","+item['qty']);        
-      }
-    });
+    
+    	//handle empty child item
+    	if(result.rows.length>0) {
+    	
+	      	$("#id").val(result.rows.item(0)['id']);
+	      	$("#id").formatNumber({format:"000000", local:"US"});
+	      	//TODO: $("#created").val(result.rows.item(0)['created']);
+	      	$("#remarks").val(result.rows.item(0)['remarks']);
+	      	for(var i=0;i<result.rows.length;i++) {
+	      		
+	      		cloneRow(i,ddl);
+	      		
+	        	var item = result.rows.item(i);
+		        console.log(item['stock']+","+item['qty']);
+		        setValueIntoSelect("#stock"+i,item['stock']);
+		        $("#qty"+i).val(item['qty']);
+		        calculateAmount(i,item['qty']);
+	      	}
+	      	$("#total").val(result.rows.item(0)['total'].toFixed(2));
+      	}
+
+		readOnly();
+	});
   });  
+}
+
+/**
+ * Set page to read only mode after retrieve receipt#.
+ */
+function readOnly() {
+	$("#created").attr("disabled",true);
+	$("#remarks").prop("readOnly",true);
+	$("#btnSave").attr("disabled",true);
+	$("#btnUpdate").attr("disabled",true);
+	$("#items li").each(function(index){
+		$(this).children("select").eq(0).attr("disabled",true);
+		$(this).children("input").eq(0).prop("readOnly",true);
+	});
+	$("#total").prop("readOnly",true);
+}
+
+/**
+ * @HACK: Set value into a dropdownlist.
+ * jquery set value into selector not working.
+ */
+function setValueIntoSelect(control,value) {
+	$(control+" option").each(function(index,element){
+		var options = $(this).val().split(",");
+		if(options[0] == value) {
+			$(this).attr("selected", "selected");
+		}
+	});
 }
 
 /**
@@ -222,5 +289,5 @@ $(document).ready(function () {
 
 $(function() {
 	$("#created").datepicker({dateFormat: "dd-M-yy"});
-	$("#created").datepicker("setDate", new Date());
+	$("#created").datepicker("setDate", new Date());	
 });

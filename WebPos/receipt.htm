@@ -35,20 +35,22 @@
 		}
 		</style>
 		<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+		<script type="text/javascript" src="js/jshashtable-2.1.js"></script>
+		<script type="text/javascript" src="js/jquery.numberformatter-1.2.3.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.js"></script>
 	</head>
 	<body>
 		<h1>Cash Receipt</h1>
 		<div id="search">
   		<input id="no" type="text"/>
-  		<img src="img/magnifier.png" cursor="hand" onclick="loadRecord()"/>
+  		<img src="img/magnifier.png" cursor="hand" onclick="loadRecord(document.getElementById('no').value)"/>
 		</div>
 		<div class="box" id="receipt">
 			<fieldset>
 				<legend>Details</ledgend>
 				<ol>
 					<li>
-						<label for="id">No.</label>
+						<label for="id">Receipt#</label>
 						<input type="text" id="id" readonly="readonly" />
 					</li>
 					<li>
@@ -62,7 +64,7 @@
 				</ol>
 			</fieldset>
 			<button id="btnReset" onclick="window.location='receipt.htm'">reset</button>
-			<button id="submitButton" onclick="insertRecord();">save</button>
+			<button id="btnSave" onclick="insertRecord();">save</button>
 			<button id="btnUpdate">update</button>
 		</div>
 		<p/>
@@ -75,7 +77,7 @@
 		<div id="items"></div>
 		<div id="footer">
 			<hr/>
-			Total 
+			Total&nbsp;&nbsp;$
 			<input id="total" class="numberBox" type="text" value="0.00"></input>
 			<hr/>
 		</div>
