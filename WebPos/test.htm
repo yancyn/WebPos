@@ -5,15 +5,10 @@
 		<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
-				var today = new Date();
-				var year = today.getYear() + 1900;
-				var month = today.getMonth() + 1;
-				alert("Year: "+year+"\nMonth: "+month);
-				
-				var date = new Date(2012,1-1,1);
-				year = date.getYear() + 1900;
-				month = date.getMonth() + 1;
-				alert("Year: "+year+"\nMonth: "+month);
+				var sales = [0,0,0,0,0,0,0,0,0,0,0,0];
+				sales[0] += 10;
+				sales[0] += 10;
+				alert(sales);
 			});
 		</script>
 	</head>

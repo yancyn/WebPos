@@ -3,13 +3,18 @@ var selectAllStatement = "SELECT * FROM Receipts ORDER BY created DESC LIMIT 100
 /**
  * Sales array through the 12 months.
  */
-var sales = [];
+var months = [1,2,3,4,5,6,7,8,9,10,11,12];
+var sales = [0,0,0,0,0,0,0,0,0,0,0,0];
 var dataset;
 
 function showRecords() {
 	$("#results").html("");
 	//var tab = "<span style='display:block;width:80px;'></span>";
 	var tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+	
+	var today = new Date();
+	var year = today.getYear()+1900;
+	
 	db.transaction(function(tx) {
 		tx.executeSql(selectAllStatement,[], function(tx,result) {
 			dataset = result.rows;
@@ -23,15 +28,20 @@ function showRecords() {
 				
 				$("#results").append(line);
 				
-				//$("#id"+i).val(item["id"]);
 				$("#id"+i).formatNumber({format:"000000", local:"US"});
 				
+				var created = new Date(item["created"]*1000);
+				if(created.getYear()+1900 == year) {
+				  sales[parseInt(created.getMonth())] += parseFloat(item["total"]);
+				}
 				$("#created"+i).datepicker({dateFormat: "dd-M-yy"});
-				$("#created"+i).datepicker("setDate",new Date(item["created"]*1000)); 
+				$("#created"+i).datepicker("setDate",created);
 				
 				$("#total"+i).val(item["total"]);
 				$("#total"+i).formatNumber({format:"###,###,###.00", local:"US"});
 			}
+			
+	    showGraph();
 		});
 	});
 }
@@ -41,15 +51,11 @@ function showRecords() {
  * @source http://designmodo.com/create-interactive-graph-css3-jquery/
  */
 function showGraph() {
+  //y axis must in number. fail after change to "Jan"
 	var graphData = [{
-	        // Visits
-	        data: [ [6, 1300], [7, 1600], [8, 1900], [9, 2100], [10, 2500], [11, 2200], [12, 2000], [13, 1950], [14, 1900], [15, 2000] ],
-	        color: '#71c73e'
-	    }, {
-	        // Returning Visits
-	        data: [ [6, 500], [7, 600], [8, 550], [9, 600], [10, 800], [11, 900], [12, 800], [13, 850], [14, 830], [15, 1000] ],
-	        color: '#77b7c5',
-	        points: { radius: 4, fillColor: '#77b7c5' }
+	        data: [ [1, sales[0]], [2, sales[1]], [3, sales[2]], [4, sales[3]], [5, sales[4]], [6, sales[5]], [7, sales[6]], [8, sales[7]], [9, sales[8]], [10, sales[9]], [11,sales[10]], [12,sales[11]] ],
+	        color: '#71c73e',
+	        points: { radius: 4, fillColor: '#71c73e' }
 	    }
 	];
 	
@@ -61,7 +67,7 @@ function showGraph() {
 			shadowSize: 0
 		},
 		grid: {color: '#646464', borderColor:'transparent', borderWidth: 20, hoverable: true},
-		xaxis: {tickColor: 'transparent', tickDecimals:2},
+		xaxis: {tickColor: 'transparent'},
 		yaxis: {tickSize: 1000},
 	});
 	
@@ -72,7 +78,7 @@ function showGraph() {
 			shadowSize:0,
 		},
 		grid: {color:"#646464", borderColor:"transparent", borderWidth:20, hoverable:true},
-		xaxis: {tickColor:'transparent', tickDecimals:2},
+		xaxis: {tickColor:'transparent'},
 		yaxis: {tickSize:1000},
 	});
 }
@@ -80,7 +86,6 @@ function showGraph() {
 $(document).ready(function() {
 	$("body").fadeIn(2000);
 	showRecords();
-	showGraph();
 });
 
 
@@ -122,7 +127,7 @@ $(function() {
 	            $('#tooltip').remove();
 	            var x = item.datapoint[0],
 	                y = item.datapoint[1];
-	                showTooltip(item.pageX, item.pageY, y + ' visitors at ' + x + '.00h');
+	                showTooltip(item.pageX, item.pageY, y.toFixed(2) + ' at ' + x + ' month');//todo: convert 1 to Jan
 	        }
 	    } else {
 	        $('#tooltip').remove();
