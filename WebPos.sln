@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		WebPos\stock.htm = WebPos\stock.htm
 		WebPos\setup.htm = WebPos\setup.htm
 		WebPos\receipt.htm = WebPos\receipt.htm
+		WebPos\jquery-ui.css = WebPos\jquery-ui.css
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "js", "js", "{9553E515-61B7-4335-8FD6-C353C75D3055}"
@@ -23,7 +24,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "style", "style", "{D4FE3CC4-871C-4F2C-A8D0-B692FEB07E71}"
 	ProjectSection(SolutionItems) = postProject
 		WebPos\style\style.css = WebPos\style\style.css
-		WebPos\style\jquery-ui.css = WebPos\style\jquery-ui.css
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{A23319C7-E1E8-4704-9CA1-E8D770C03A0F}"
+	ProjectSection(SolutionItems) = postProject
+		WebPos\images\magnifier.png = WebPos\images\magnifier.png
+		WebPos\images\ui-bg_flat_75_ffffff_40x100.png = WebPos\images\ui-bg_flat_75_ffffff_40x100.png
 	EndProjectSection
 EndProject
 Global
@@ -38,5 +44,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{9553E515-61B7-4335-8FD6-C353C75D3055} = {B495B21D-1745-4356-9A67-AAFA9D4F7C95}
 		{D4FE3CC4-871C-4F2C-A8D0-B692FEB07E71} = {B495B21D-1745-4356-9A67-AAFA9D4F7C95}
+		{A23319C7-E1E8-4704-9CA1-E8D770C03A0F} = {B495B21D-1745-4356-9A67-AAFA9D4F7C95}
 	EndGlobalSection
 EndGlobal
