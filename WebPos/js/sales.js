@@ -12,6 +12,7 @@ function showRecords() {
 	//var tab = "<span style='display:block;width:80px;'></span>";
 	var tab = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	
+	//only show this year sales
 	var today = new Date();
 	var year = today.getYear()+1900;
 	
@@ -24,6 +25,8 @@ function showRecords() {
 				line += "<a id='id"+i+"' href='receipt.htm?id="+item["id"]+"'>"+item["id"]+"</a>";				
 				line += "<input class='dateBox' id='created"+i+"' disabled='disabled' readonly='readonly' />";
 				line += "<input class='numberBox' id='total"+i+"' readonly='readonly' />";
+				line += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+				line += item["remarks"];
 				line += "</li>";
 				
 				$("#results").append(line);
@@ -38,7 +41,7 @@ function showRecords() {
 				$("#created"+i).datepicker("setDate",created);
 				
 				$("#total"+i).val(item["total"]);
-				$("#total"+i).formatNumber({format:"###,###,###.00", local:"US"});
+				$("#total"+i).formatNumber({format:"###,###,###.00", local:"US"});				
 			}
 			
 	    showGraph();
@@ -51,9 +54,14 @@ function showRecords() {
  * @source http://designmodo.com/create-interactive-graph-css3-jquery/
  */
 function showGraph() {
-  //y axis must in number. fail after change to "Jan"
+	//y axis must be in number. fail after change to "Jan"
+  	var points = [];
+  	for(var i=0;i<sales.length;i++) {
+  		points[i] = [i+1, sales[i]];
+  	}
+  	
 	var graphData = [{
-	        data: [ [1, sales[0]], [2, sales[1]], [3, sales[2]], [4, sales[3]], [5, sales[4]], [6, sales[5]], [7, sales[6]], [8, sales[7]], [9, sales[8]], [10, sales[9]], [11,sales[10]], [12,sales[11]] ],
+	        data: points,
 	        color: '#71c73e',
 	        points: { radius: 4, fillColor: '#71c73e' }
 	    }
@@ -68,7 +76,7 @@ function showGraph() {
 		},
 		grid: {color: '#646464', borderColor:'transparent', borderWidth: 20, hoverable: true},
 		xaxis: {tickColor: 'transparent'},
-		yaxis: {tickSize: 1000},
+		yaxis: {tickSize: 500},
 	});
 	
 	//plot bar graph
@@ -79,14 +87,31 @@ function showGraph() {
 		},
 		grid: {color:"#646464", borderColor:"transparent", borderWidth:20, hoverable:true},
 		xaxis: {tickColor:'transparent'},
-		yaxis: {tickSize:1000},
+		yaxis: {tickSize:500},
 	});
 }
 
-$(document).ready(function() {
-	$("body").fadeIn(2000);
-	showRecords();
-});
+/**
+ * Convert to readable month string.
+ * @param int i 1-based value.
+ */
+function convertToMonth(i) {
+
+	switch(i%12) {
+		case 0: return "Dec"; break;
+		case 1: return "Jan"; break;
+		case 2: return "Feb"; break;
+		case 3: return "Mar"; break;
+		case 4: return "Apr"; break;
+		case 5: return "May"; break;
+		case 6: return "Jun"; break;
+		case 7: return "Jul"; break;
+		case 8: return "Aug"; break;
+		case 9: return "Sep"; break;
+		case 10: return "Oct"; break;
+		case 11: return "Nov"; break;		
+	}
+}
 
 
 $(function() {
@@ -127,7 +152,7 @@ $(function() {
 	            $('#tooltip').remove();
 	            var x = item.datapoint[0],
 	                y = item.datapoint[1];
-	                showTooltip(item.pageX, item.pageY, y.toFixed(2) + ' at ' + x + ' month');//todo: convert 1 to Jan
+	                showTooltip(item.pageX, item.pageY, y.toFixed(2) + ' at ' + convertToMonth(x));
 	        }
 	    } else {
 	        $('#tooltip').remove();
@@ -135,4 +160,10 @@ $(function() {
 	    }
 	});
 
+});
+
+
+$(document).ready(function() {
+	$("body").fadeIn(2000);
+	showRecords();
 });
